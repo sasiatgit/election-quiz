@@ -28,6 +28,7 @@ export function QuizExperience() {
   const [feedbackStatus, setFeedbackStatus] = useState<LeadStatus>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const resultsRef = useRef<HTMLDivElement | null>(null);
+  const questionCardRef = useRef<HTMLElement | null>(null);
 
   const activeQuestions = quizStage === "first" ? firstQuizQuestions : secondQuizQuestions;
   const activeQuestion = activeQuestions[currentQuestion];
@@ -165,6 +166,9 @@ export function QuizExperience() {
     setCurrentQuestion(0);
     setQuizMessage("");
     closeUserDetailsModal();
+    requestAnimationFrame(() => {
+      questionCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 
   async function handleFeedbackSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -245,7 +249,7 @@ export function QuizExperience() {
       </section>
 
       <section className="quiz-card">
-        <article className="question-card">
+        <article className="question-card" ref={questionCardRef}>
           <div className="question-topline">
             <span>
               Question {activeQuestion.id} of {activeQuestions.length}
