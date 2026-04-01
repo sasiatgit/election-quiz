@@ -36,20 +36,30 @@ export async function POST(request: Request) {
         name TEXT NOT NULL,
         place TEXT NOT NULL,
         phone VARCHAR(10) NOT NULL,
+        like_dislike TEXT,
+        comments TEXT,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
     `);
 
-    await pool.query(
+    await pool.query(`
+      ALTER TABLE quiz_leads
+      ADD COLUMN IF NOT EXISTS like_dislike TEXT,
+      ADD COLUMN IF NOT EXISTS comments TEXT
+    `);
+
+    const result = await pool.query<{ id: number }>(
       `
         INSERT INTO quiz_leads (name, place, phone)
         VALUES ($1, $2, $3)
+        RETURNING id
       `,
       [name, place, phone]
     );
 
     return NextResponse.json({
-      message: "Details saved successfully. You can continue to the next quiz."
+      message: "Details saved successfully. You can continue to the next quiz.",
+      leadId: result.rows[0]?.id
     });
   } catch (error) {
     const message =

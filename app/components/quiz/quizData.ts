@@ -17,59 +17,64 @@ export const firstQuizQuestions: Question[] = [
   },
   {
     id: 3,
-    prompt: "How many total electors are listed for Mannargudi constituency in the current quiz dataset?",
+    prompt: "How many total electors are listed for Mannargudi constituency in the coming election?",
     options: ["231,935", "246,820", "258,340", "276,410"],
-    answer: "258,340",
-    detail: "The quiz uses 258,340 electors from a recent public voter dataset."
+    answer: "231,935",
+    detail: "The official final voter list published on February 23, 2026 lists 231,935 total electors for Mannargudi."
   },
   {
     id: 4,
-    prompt: "How many male voters are recorded in this dataset for Mannargudi?",
-    options: ["124,594", "121,747", "133,738", "125,881"],
-    answer: "124,594",
-    detail: "Male electors are listed as 124,594."
+    prompt: "How many male voters are recorded for Mannargudi?",
+    options: ["112,530", "119,401", "124,594", "121,747"],
+    answer: "112,530",
+    detail: "The official final voter list published on February 23, 2026 lists 112,530 male electors for Mannargudi."
   },
   {
     id: 5,
-    prompt: "How many female voters are recorded in this dataset for Mannargudi?",
-    options: ["127,446", "133,738", "134,025", "124,594"],
-    answer: "133,738",
-    detail: "Female electors are listed as 133,738."
+    prompt: "How many female voters are recorded for Mannargudi?",
+    options: ["112,530", "119,401", "133,738", "124,594"],
+    answer: "119,401",
+    detail: "The official final voter list published on February 23, 2026 lists 119,401 female electors for Mannargudi."
   },
   {
     id: 6,
-    prompt: "How many polling booths are shown for Mannargudi in the current quiz dataset?",
-    options: ["246", "258", "282", "286"],
-    answer: "286",
-    detail: "The constituency snapshot used here lists 286 polling booths."
-  },
-  {
-    id: 7,
-    prompt: "How many polling stations are shown for Mannargudi in the current quiz dataset?",
+    prompt: "How many polling stations are there for Mannargudi Assembly Constituency?",
     options: ["246", "286", "233", "167"],
     answer: "246",
     detail: "The same snapshot lists 246 polling stations."
   },
   {
+    id: 7,
+    prompt: "How many polling booths are there for Mannargudi Assembly Constituency?",
+    options: ["246", "258", "282", "286"],
+    answer: "286",
+    detail: "The current public constituency listing shows 286 polling booths for Mannargudi."
+  },
+  {
     id: 8,
-    prompt: "How many gram panchayats are in Mannargudi block?",
+    prompt: "How many village panchayats are there in Mannargudi Assembly Constituency?",
     options: ["33", "42", "51", "70"],
     answer: "51",
-    detail: "Mannargudi block has 51 gram panchayats."
+    detail: "The latest Thiruvarur district local body listing shows 51 village panchayats in Mannargudi block."
   },
   {
     id: 9,
-    prompt: "How many villages are under Mannargudi panchayat samiti according to the local body listing?",
-    options: ["51", "66", "70", "86"],
-    answer: "70",
-    detail: "The local body listing shows 70 villages under Mannargudi panchayat samiti."
+    prompt: "How many town panchayats are there in Mannargudi Assembly Constituency?",
+    options: ["0", "1", "2", "3"],
+    answer: "0",
+    detail: "The latest Thiruvarur district local body listing shows Mannargudi as a municipality, with no town panchayat in Mannargudi block area."
   },
   {
     id: 10,
-    prompt: "How many wards are there in Mannargudi Municipality?",
-    options: ["25", "30", "33", "36"],
-    answer: "33",
-    detail: "Mannargudi Municipality has 33 wards."
+    prompt: "Which election is used to choose the MLA for Mannargudi?",
+    options: [
+      "Lok Sabha election",
+      "Tamil Nadu Assembly election",
+      "Municipal election",
+      "Panchayat election"
+    ],
+    answer: "Tamil Nadu Assembly election",
+    detail: "Voters in Mannargudi choose their MLA through the Tamil Nadu Assembly election."
   }
 ];
 
@@ -77,9 +82,9 @@ export const secondQuizQuestions: Question[] = [
   {
     id: 1,
     prompt: "Who won the 2021 Mannargudi Assembly election?",
-    options: ["T. R. B. Rajaa", "Rajamanickam Siva", "S. Kamaraj", "Aravindan Rama"],
-    answer: "T. R. B. Rajaa",
-    detail: "T. R. B. Rajaa of the DMK won Mannargudi in the 2021 Assembly election."
+    options: ["T. R. B. Raja", "Siva Rajamanikam", "S. Kamaraj", "Aravindan Rama"],
+    answer: "T. R. B. Raja",
+    detail: "T. R. B. Raja of the DMK won Mannargudi in the 2021 Assembly election."
   },
   {
     id: 2,
@@ -90,42 +95,42 @@ export const secondQuizQuestions: Question[] = [
   },
   {
     id: 3,
-    prompt: "Who was the AIADMK candidate in Mannargudi in the 2021 election?",
-    options: ["Rajamanickam Siva", "S. Kamaraj", "Bharathi Selvan", "U. V. M. Rajarajan"],
-    answer: "Rajamanickam Siva",
-    detail: "Rajamanickam Siva was the AIADMK candidate in Mannargudi in 2021."
+    prompt: "Who was the ADMK candidate in Mannargudi in the 2021 election?",
+    options: ["Siva Rajamanikam", "S. Kamaraj", "Bharathi Selvan", "U. V. M. Rajarajan"],
+    answer: "Siva Rajamanikam",
+    detail: "Siva Rajamanikam was the ADMK candidate in Mannargudi in 2021."
   },
   {
     id: 4,
-    prompt: "Who is the DMK candidate for Mannargudi in the 2026 election quiz set?",
-    options: ["T. R. B. Rajaa", "S. Kamaraj", "Bharathi Selvan", "U. V. M. Rajarajan"],
-    answer: "T. R. B. Rajaa",
-    detail: "As of April 1, 2026, the publicly listed DMK candidate for Mannargudi is T. R. B. Rajaa."
+    prompt: "Who is the DMK candidate for Mannargudi now?",
+    options: ["T. R. B. Raja", "S. Kamaraj", "Bharathi Selvan", "U. V. M. Rajarajan"],
+    answer: "T. R. B. Raja",
+    detail: "As of April 1, 2026, the publicly listed DMK candidate for Mannargudi is T. R. B. Raja."
   },
   {
     id: 5,
-    prompt: "Which NDA ally is contesting Mannargudi against the DMK in this 2026 quiz set?",
+    prompt: "Which ADMK ally political party is contesting Mannargudi this election?",
     options: ["AIADMK", "BJP", "AMMK", "PMK"],
     answer: "AMMK",
     detail: "Mannargudi is shown as an AMMK seat within the AIADMK-led alliance in the current public candidate listing."
   },
   {
     id: 6,
-    prompt: "Who is the AMMK candidate for Mannargudi in the 2026 quiz set?",
-    options: ["Rajamanickam Siva", "S. Kamaraj", "Bharathi Selvan", "K. Poondi Kalaivanan"],
+    prompt: "Who is the AMMK candidate for Mannargudi now?",
+    options: ["Siva Rajamanikam", "S. Kamaraj", "Bharathi Selvan", "K. Poondi Kalaivanan"],
     answer: "S. Kamaraj",
     detail: "As of April 1, 2026, S. Kamaraj is publicly listed as the AMMK candidate for Mannargudi."
   },
   {
     id: 7,
-    prompt: "Who is the NTK candidate for Mannargudi in the 2026 quiz set?",
-    options: ["Aravindan Rama", "Bharathi Selvan", "Vinothini", "S. Pandian"],
-    answer: "Bharathi Selvan",
-    detail: "As of April 1, 2026, Bharathi Selvan is publicly listed as the NTK candidate for Mannargudi."
+    prompt: "Who is the NTK candidate for Mannargudi now?",
+    options: ["Aravindan Rama", "Dr. Bharathi Selvam", "Vinothini", "S. Pandian"],
+    answer: "Dr. Bharathi Selvam",
+    detail: "As of April 1, 2026, Dr. Bharathi Selvam is publicly listed as the NTK candidate for Mannargudi."
   },
   {
     id: 8,
-    prompt: "Who is the TVK candidate for Mannargudi in the 2026 quiz set?",
+    prompt: "Who is the TVK candidate for Mannargudi now?",
     options: ["U. V. M. Rajarajan", "Bharathi Selvan", "S. Kamaraj", "T. R. B. Rajaa"],
     answer: "U. V. M. Rajarajan",
     detail: "As of April 1, 2026, U. V. M. Rajarajan is publicly listed as the TVK candidate for Mannargudi."
@@ -139,7 +144,7 @@ export const secondQuizQuestions: Question[] = [
   },
   {
     id: 10,
-    prompt: "Which symbol was assigned to AMMK for the 2026 Tamil Nadu polls?",
+    prompt: "Which symbol is assigned to AMMK for the 2026 Tamil Nadu Assembly election?",
     options: ["Two Leaves", "Whistle", "Rising Sun", "Cooker"],
     answer: "Cooker",
     detail: "AMMK was allotted the 'cooker' symbol for the 2026 Tamil Nadu Assembly polls."

@@ -3,5 +3,7 @@ CREATE TABLE IF NOT EXISTS quiz_leads (
   name TEXT NOT NULL,
   place TEXT NOT NULL,
   phone VARCHAR(10) NOT NULL,
+  like_dislike TEXT,
+  comments TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

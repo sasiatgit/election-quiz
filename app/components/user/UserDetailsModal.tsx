@@ -36,7 +36,7 @@ export function UserDetailsModal({
     <div className="modal-backdrop" onClick={onClose}>
       <section className="more-quiz-card modal-card" onClick={(event) => event.stopPropagation()}>
         <div className="question-topline">
-          <span>For answers and more quiz</span>
+          <span>See answers and try more interesting quizzes</span>
         </div>
 
         {leadStatus !== "success" ? (
@@ -68,6 +68,10 @@ export function UserDetailsModal({
                 type="tel"
                 value={contact.phone}
                 onChange={(event) => onChange("phone", event.target.value)}
+                onInvalid={(event) =>
+                  event.currentTarget.setCustomValidity("Please enter 10 digit mobile number")
+                }
+                onInput={(event) => event.currentTarget.setCustomValidity("")}
                 placeholder="10-digit mobile number"
                 inputMode="numeric"
                 pattern="[0-9]{10}"
@@ -94,27 +98,31 @@ export function UserDetailsModal({
         ) : (
           <div className="review-panel">
             <h3>Last 10 Questions And Answers</h3>
-            {leadMessage && <p className="inline-note success-note">{leadMessage}</p>}
 
             <div className="review-list">
-              {reviewQuestions.map((question) => (
-                <article className="review-item" key={question.id}>
-                  <span>Question {question.id}</span>
-                  <strong>{question.prompt}</strong>
-                  <p>
-                    Answered:{" "}
-                    <b>{reviewAnswers[question.id] ? reviewAnswers[question.id] : "Not answered"}</b>
-                  </p>
-                  <p>
-                    Correct answer: <b>{question.answer}</b>
-                  </p>
-                </article>
-              ))}
+              {reviewQuestions.map((question) => {
+                const needsUpdateLabel = [6, 7, 8, 9].includes(question.id);
+
+                return (
+                  <article className="review-item" key={question.id}>
+                    <span>Question {question.id}</span>
+                    <strong>{question.prompt}</strong>
+                    <p>
+                      Answered:{" "}
+                      <b>{reviewAnswers[question.id] ? reviewAnswers[question.id] : "Not answered"}</b>
+                    </p>
+                    <p>
+                      Correct answer: <b>{question.answer}</b>
+                    </p>
+                    {needsUpdateLabel && <p>Not sure, will update ASAP.</p>}
+                  </article>
+                );
+              })}
             </div>
 
             <div className="action-row">
               <button type="button" className="primary-button" onClick={onProceed}>
-                Proceed Next 10 Quizzes
+                Try next 10 interesting quizzes about candidates?
               </button>
               <button type="button" className="secondary-button" onClick={onClose}>
                 Close

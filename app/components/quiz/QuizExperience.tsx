@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { UserDetailsModal } from "../user/UserDetailsModal";
 import { firstQuizQuestions, secondQuizQuestions } from "./quizData";
-import type { ContactDetails, LeadStatus, QuizStage } from "./types";
+import type { ContactDetails, FeedbackReaction, LeadStatus, QuizStage } from "./types";
 import { normalizePhoneNumber, validatePhoneNumber } from "../../../lib/phoneValidation";
 
 const initialContact: ContactDetails = {
@@ -22,6 +22,11 @@ export function QuizExperience() {
   const [leadStatus, setLeadStatus] = useState<LeadStatus>("idle");
   const [leadMessage, setLeadMessage] = useState("");
   const [contact, setContact] = useState<ContactDetails>(initialContact);
+  const [leadId, setLeadId] = useState<number | null>(null);
+  const [feedbackReaction, setFeedbackReaction] = useState<FeedbackReaction>("");
+  const [feedbackComment, setFeedbackComment] = useState("");
+  const [feedbackStatus, setFeedbackStatus] = useState<LeadStatus>("idle");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const activeQuestions = quizStage === "first" ? firstQuizQuestions : secondQuizQuestions;
   const activeQuestion = activeQuestions[currentQuestion];
@@ -74,6 +79,11 @@ export function QuizExperience() {
     setLeadStatus("idle");
     setLeadMessage("");
     setContact(initialContact);
+    setLeadId(null);
+    setFeedbackReaction("");
+    setFeedbackComment("");
+    setFeedbackStatus("idle");
+    setFeedbackMessage("");
   }
 
   async function handleMoreQuizSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -103,7 +113,7 @@ export function QuizExperience() {
       });
 
       const contentType = response.headers.get("content-type") || "";
-      let payload: { message?: string } = {};
+      let payload: { message?: string; leadId?: number } = {};
 
       if (contentType.includes("application/json")) {
         payload = (await response.json()) as { message?: string };
@@ -123,6 +133,7 @@ export function QuizExperience() {
         throw new Error(payload.message || "Unable to save your details right now.");
       }
 
+      setLeadId(payload.leadId ?? null);
       setLeadStatus("success");
       setLeadMessage(payload.message || "Your details were saved successfully.");
     } catch (error) {
@@ -149,15 +160,63 @@ export function QuizExperience() {
     closeUserDetailsModal();
   }
 
+  async function handleFeedbackSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!feedbackReaction) {
+      setFeedbackStatus("error");
+      setFeedbackMessage("Please choose like or dislike before submitting.");
+      return;
+    }
+
+    setFeedbackStatus("submitting");
+    setFeedbackMessage("");
+
+    try {
+      const response = await fetch("/api/quiz-feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          leadId,
+          reaction: feedbackReaction,
+          comments: feedbackComment,
+          phone: contact.phone
+        })
+      });
+
+      const payload = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(payload.message || "Unable to save feedback right now.");
+      }
+
+      setFeedbackStatus("success");
+      setFeedbackMessage(payload.message || "Feedback saved successfully.");
+      setFeedbackComment("");
+      setFeedbackReaction("");
+    } catch (error) {
+      setFeedbackStatus("error");
+      setFeedbackMessage(
+        error instanceof Error ? error.message : "Unable to save feedback right now."
+      );
+    }
+  }
+
   return (
     <main className="page-shell">
       <section className="hero-card">
-        <p className="eyebrow">Tamil Nadu State Assembly Election Quiz</p>
-        <h1>{quizStage === "first" ? "Mannargudi 167 Quiz" : "Mannargudi 167 Quiz Round 2"}</h1>
+        <p className="eyebrow">Do You Know Your Constituency?</p>
+        <h1>
+          {quizStage === "first"
+            ? "How Well Do You Know Mannargudi 167?"
+            : "How Well Do You Know Mannargudi 167? Round 2"}
+        </h1>
         <p className="hero-copy">
           {quizStage === "first"
-            ? "A focused single-page quiz for your own constituency. This first version covers voter strength, booths, panchayats, villages, and municipal wards."
-            : "Round 2 focuses on the 2021 result and the currently public 2026 candidate lineup for Mannargudi constituency 167."}
+            ? "A simple awareness quiz to help young voters learn more about their own constituency before they vote."
+            : "This round has interesting questions on the 2021 result and the current candidate lineup."}
         </p>
 
         <div className="hero-grid">
@@ -228,17 +287,26 @@ export function QuizExperience() {
             })}
           </div>
 
-          {submitted && <p className="answer-detail">{activeQuestion.detail}</p>}
-
           <div className="question-nav">
             <button
               type="button"
-              className="secondary-button"
+              className="primary-button"
               onClick={() => setCurrentQuestion((current) => Math.max(current - 1, 0))}
               disabled={currentQuestion === 0}
             >
               Previous
             </button>
+            {quizStage === "first" && currentQuestion < activeQuestions.length - 1 && !submitted && (
+              <p className="guess-note">Not sure? Take a guess or move to the next question.</p>
+            )}
+            {quizStage === "first" &&
+              currentQuestion === activeQuestions.length - 1 &&
+              !submitted &&
+              !quizMessage && (
+                <p className="guess-note">
+                  You can submit from here even if some questions are unanswered.
+                </p>
+              )}
             {currentQuestion < activeQuestions.length - 1 ? (
               <button
                 type="button"
@@ -257,12 +325,6 @@ export function QuizExperience() {
           </div>
 
           {quizMessage && <p className="inline-note error-note">{quizMessage}</p>}
-
-          {currentQuestion === activeQuestions.length - 1 && !submitted && !quizMessage && (
-            <p className="inline-note">
-              You can submit from here even if some questions are unanswered.
-            </p>
-          )}
 
           {submitted && currentQuestion === activeQuestions.length - 1 && (
             <div className="result-panel">
@@ -283,10 +345,16 @@ export function QuizExperience() {
                   return (
                     <div className={["answer-row", answerState].join(" ")} key={question.id}>
                       <span>Q{question.id}</span>
-                      <div className="answer-copy">
-                        <strong>Answered: {selectedAnswer || "Not answered"}</strong>
-                        <small>Correct answer: {question.answer}</small>
-                      </div>
+                      {quizStage === "first" ? (
+                        <strong>{selectedAnswer || "Not answered"}</strong>
+                      ) : (
+                        <div className="answer-copy">
+                          <strong>
+                            {selectedAnswer ? `Answered: ${selectedAnswer}` : "Not answered"}
+                          </strong>
+                          <small>Correct answer: {question.answer}</small>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -294,22 +362,29 @@ export function QuizExperience() {
 
               <div className="action-row">
                 {quizStage === "first" ? (
-                  <button
-                    type="button"
-                    className="primary-button"
-                    onClick={openUserDetailsModal}
-                  >
-                    For answers and more quiz
-                  </button>
+                  <>
+                    <button type="button" className="secondary-button" onClick={handleReset}>
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      className="primary-button action-row-right"
+                      onClick={openUserDetailsModal}
+                    >
+                      See answers and try more interesting quizzes
+                    </button>
+                  </>
                 ) : (
                   <p className="quiz-finale-message">
                     Hope this helps you get some details on your constituency. Don&apos;t forget
                     to cast your vote on April 23. Happy voting.
                   </p>
                 )}
-                <button type="button" className="secondary-button" onClick={handleReset}>
-                  Reset
-                </button>
+                {quizStage === "second" && (
+                  <button type="button" className="secondary-button" onClick={handleReset}>
+                    Reset
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -328,6 +403,87 @@ export function QuizExperience() {
         onProceed={handleProceedNextQuiz}
         onSubmit={handleMoreQuizSubmit}
       />
+
+      {quizStage === "second" && (
+        <section className="footer-card">
+          <div>
+            <p className="eyebrow">Quick Feedback</p>
+            <h3>Did this quiz feel useful?</h3>
+            <p className="data-note">
+              Share a quick like or dislike and comment. Also, if you want to promote your
+              business through apps and attract more customers, you can mention that in the
+              comments too.
+            </p>
+          </div>
+
+          <form className="feedback-form" onSubmit={handleFeedbackSubmit}>
+            <div className="feedback-reactions" role="group" aria-label="Feedback reaction">
+              <button
+                type="button"
+                className={["reaction-button", feedbackReaction === "like" ? "active" : ""]
+                  .filter(Boolean)
+                  .join(" ")}
+                onClick={() => {
+                  setFeedbackReaction("like");
+                  setFeedbackStatus("idle");
+                  setFeedbackMessage("");
+                }}
+              >
+                {feedbackReaction === "like" ? "Liked" : "Like"}
+              </button>
+              <button
+                type="button"
+                className={["reaction-button", feedbackReaction === "dislike" ? "active" : ""]
+                  .filter(Boolean)
+                  .join(" ")}
+                onClick={() => {
+                  setFeedbackReaction("dislike");
+                  setFeedbackStatus("idle");
+                  setFeedbackMessage("");
+                }}
+              >
+                {feedbackReaction === "dislike" ? "Disliked" : "Dislike"}
+              </button>
+            </div>
+
+            <label className="feedback-label">
+              Comments
+              <textarea
+                value={feedbackComment}
+                onChange={(event) => {
+                  setFeedbackComment(event.target.value);
+                  setFeedbackStatus("idle");
+                  setFeedbackMessage("");
+                }}
+                maxLength={500}
+                placeholder="Share your feedback, or leave a note if you want help building apps to attract more customers."
+                rows={4}
+              />
+            </label>
+
+            {feedbackMessage && (
+              <p
+                className={[
+                  "inline-note",
+                  feedbackStatus === "error" ? "error-note" : "success-note"
+                ].join(" ")}
+              >
+                {feedbackMessage}
+              </p>
+            )}
+
+            <div className="action-row">
+              <button
+                type="submit"
+                className="primary-button"
+                disabled={feedbackStatus === "submitting"}
+              >
+                {feedbackStatus === "submitting" ? "Saving..." : "Send Feedback"}
+              </button>
+            </div>
+          </form>
+        </section>
+      )}
     </main>
   );
 }
