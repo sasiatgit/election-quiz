@@ -35,13 +35,9 @@ export function UserDetailsModal({
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <section className="more-quiz-card modal-card" onClick={(event) => event.stopPropagation()}>
-        <div className="question-topline">
-          <span>See answers and try more interesting quizzes</span>
-        </div>
-
         {leadStatus !== "success" ? (
           <form className="lead-form" onSubmit={onSubmit}>
-            <h3>Enter your details to continue</h3>
+            <h3>Enter your details to see answers</h3>
             <label>
               Name
               <input
@@ -121,8 +117,12 @@ export function UserDetailsModal({
             </div>
 
             <div className="action-row">
-              <button type="button" className="primary-button" onClick={onProceed}>
-                Try next 10 interesting quizzes about candidates?
+              <button
+                type="button"
+                className="primary-button cta-candidates-button"
+                onClick={onProceed}
+              >
+                Try quiz about Mannargudi candidates
               </button>
               <button type="button" className="secondary-button" onClick={onClose}>
                 Close

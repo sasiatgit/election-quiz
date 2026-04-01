@@ -23,6 +23,7 @@ export function QuizExperience() {
   const [leadMessage, setLeadMessage] = useState("");
   const [contact, setContact] = useState<ContactDetails>(initialContact);
   const [leadId, setLeadId] = useState<number | null>(null);
+  const [firstRoundScore, setFirstRoundScore] = useState(0);
   const [feedbackReaction, setFeedbackReaction] = useState<FeedbackReaction>("");
   const [feedbackComment, setFeedbackComment] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<LeadStatus>("idle");
@@ -72,9 +73,27 @@ export function QuizExperience() {
     setQuizMessage("");
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     setSubmitted(true);
     setQuizMessage("");
+
+    if (quizStage === "second" && leadId) {
+      try {
+        await fetch("/api/quiz-score", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            leadId,
+            overallCorrectAnswers: firstRoundScore + score,
+            phone: contact.phone
+          })
+        });
+      } catch {
+        // Don't block the quiz flow if score syncing fails.
+      }
+    }
   }
 
   function handleReset() {
@@ -88,6 +107,7 @@ export function QuizExperience() {
     setLeadMessage("");
     setContact(initialContact);
     setLeadId(null);
+    setFirstRoundScore(0);
     setFeedbackReaction("");
     setFeedbackComment("");
     setFeedbackStatus("idle");
@@ -160,6 +180,7 @@ export function QuizExperience() {
   }
 
   function handleProceedNextQuiz() {
+    setFirstRoundScore(score);
     setQuizStage("second");
     setAnswers({});
     setSubmitted(false);
@@ -344,47 +365,42 @@ export function QuizExperience() {
                 {score} / {activeQuestions.length}
               </h3>
 
-              <div className="answers-list">
-                {activeQuestions.map((question) => {
-                  const selectedAnswer = answers[question.id];
-                  const answerState = !selectedAnswer
-                    ? "empty-row"
-                    : selectedAnswer === question.answer
-                      ? "correct-row"
-                      : "wrong-row";
+              {quizStage === "second" && (
+                <>
+                  <div className="answers-list">
+                    {activeQuestions.map((question) => {
+                      const selectedAnswer = answers[question.id];
+                      const answerState = !selectedAnswer
+                        ? "empty-row"
+                        : selectedAnswer === question.answer
+                          ? "correct-row"
+                          : "wrong-row";
 
-                  return (
-                    <div className={["answer-row", answerState].join(" ")} key={question.id}>
-                      <span>Q{question.id}</span>
-                      {quizStage === "first" ? (
-                        <strong>{selectedAnswer || "Not answered"}</strong>
-                      ) : (
-                        <div className="answer-copy">
-                          <strong>
-                            {selectedAnswer ? `Answered: ${selectedAnswer}` : "Not answered"}
-                          </strong>
-                          <small>Correct answer: {question.answer}</small>
+                      return (
+                        <div className={["answer-row", answerState].join(" ")} key={question.id}>
+                          <span>Q{question.id}</span>
+                          <div className="answer-copy">
+                            <strong>
+                              {selectedAnswer ? `Answered: ${selectedAnswer}` : "Not answered"}
+                            </strong>
+                            <small>Correct answer: {question.answer}</small>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
 
-              <div className="action-row">
+              <div className={quizStage === "first" ? "action-row action-row-center" : "action-row"}>
                 {quizStage === "first" ? (
-                  <>
-                    <button type="button" className="secondary-button" onClick={handleReset}>
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      className="primary-button action-row-right"
-                      onClick={openUserDetailsModal}
-                    >
-                      See answers and try more interesting quizzes
-                    </button>
-                  </>
+                  <button
+                    type="button"
+                    className="primary-button cta-candidates-button"
+                    onClick={openUserDetailsModal}
+                  >
+                    Want to know the answers? Continue to the next-level quiz on candidates
+                  </button>
                 ) : (
                   <p className="quiz-finale-message">
                     Hope this helps you get some details on your constituency. Don&apos;t forget

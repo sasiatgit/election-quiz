@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         phone VARCHAR(10) NOT NULL,
         like_dislike TEXT,
         comments TEXT,
+        overall_correct_answers INTEGER,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
     `);
@@ -45,7 +46,8 @@ export async function POST(request: Request) {
     await pool.query(`
       ALTER TABLE quiz_leads
       ADD COLUMN IF NOT EXISTS like_dislike TEXT,
-      ADD COLUMN IF NOT EXISTS comments TEXT
+      ADD COLUMN IF NOT EXISTS comments TEXT,
+      ADD COLUMN IF NOT EXISTS overall_correct_answers INTEGER
     `);
 
     const result = await pool.query<{ id: number }>(

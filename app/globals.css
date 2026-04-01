@@ -367,6 +367,10 @@ button {
   flex-wrap: wrap;
 }
 
+.action-row-center {
+  justify-content: center;
+}
+
 .action-row-right {
   margin-left: auto;
 }
@@ -404,6 +408,11 @@ button {
 .primary-button {
   background: var(--accent);
   color: #fff;
+}
+
+.cta-candidates-button {
+  background: #c62828;
+  color: #ffffff;
 }
 
 .secondary-button {
