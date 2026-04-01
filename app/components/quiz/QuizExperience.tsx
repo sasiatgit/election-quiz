@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { UserDetailsModal } from "../user/UserDetailsModal";
 import { firstQuizQuestions, secondQuizQuestions } from "./quizData";
 import type { ContactDetails, FeedbackReaction, LeadStatus, QuizStage } from "./types";
@@ -27,6 +27,7 @@ export function QuizExperience() {
   const [feedbackComment, setFeedbackComment] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<LeadStatus>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const activeQuestions = quizStage === "first" ? firstQuizQuestions : secondQuizQuestions;
   const activeQuestion = activeQuestions[currentQuestion];
@@ -43,6 +44,12 @@ export function QuizExperience() {
       return total + (answers[question.id] === question.answer ? 1 : 0);
     }, 0);
   }, [activeQuestions, answers]);
+
+  useEffect(() => {
+    if (submitted && currentQuestion === activeQuestions.length - 1) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [submitted, currentQuestion, activeQuestions.length]);
 
   function openUserDetailsModal() {
     setShowMoreQuizForm(true);
@@ -327,7 +334,7 @@ export function QuizExperience() {
           {quizMessage && <p className="inline-note error-note">{quizMessage}</p>}
 
           {submitted && currentQuestion === activeQuestions.length - 1 && (
-            <div className="result-panel">
+            <div className="result-panel" ref={resultsRef}>
               <p className="score-label">Your Score</p>
               <h3>
                 {score} / {activeQuestions.length}
