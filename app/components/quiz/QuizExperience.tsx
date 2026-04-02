@@ -412,7 +412,8 @@ export function QuizExperience() {
                     className="primary-button cta-candidates-button"
                     onClick={openUserDetailsModal}
                   >
-                    Want to know the answers? Continue to the next-level quiz on candidates
+                    <span>Let&apos;s Try Easy</span>
+                    <small aria-hidden="true">›</small>
                   </button>
                 ) : null}
                 {quizStage === "second" && (

@@ -37,7 +37,7 @@ export function UserDetailsModal({
       <section className="more-quiz-card modal-card" onClick={(event) => event.stopPropagation()}>
         {leadStatus !== "success" ? (
           <form className="lead-form" onSubmit={onSubmit}>
-            <h3>Enter your details to see answers</h3>
+            <h3>Enter your details to continue..</h3>
             <label>
               Name
               <input

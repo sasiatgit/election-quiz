@@ -433,8 +433,38 @@ button {
 }
 
 .cta-candidates-button {
-  background: #c62828;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #f06b77 0%, #cd586f 45%, #9c547f 100%);
   color: #ffffff;
+  padding: 12px 14px 12px 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(156, 84, 127, 0.32);
+}
+
+.cta-candidates-button small {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 1.25rem;
+  font-weight: 500;
+  opacity: 1;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.cta-candidates-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(156, 84, 127, 0.38);
 }
 
 .secondary-button {
