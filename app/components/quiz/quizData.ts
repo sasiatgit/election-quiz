@@ -17,7 +17,7 @@ export const firstQuizQuestions: Question[] = [
   },
   {
     id: 3,
-    prompt: "How many total electors are listed for Mannargudi constituency in the coming election?",
+    prompt: "How many total electors are listed for Mannargudi constituency?",
     options: ["231,935", "246,820", "258,340", "276,410"],
     answer: "231,935",
     detail: "The official final voter list published on February 23, 2026 lists 231,935 total electors for Mannargudi."
@@ -38,43 +38,43 @@ export const firstQuizQuestions: Question[] = [
   },
   {
     id: 6,
-    prompt: "How many polling stations are there for Mannargudi Assembly Constituency?",
-    options: ["246", "286", "233", "167"],
-    answer: "246",
-    detail: "The same snapshot lists 246 polling stations."
+    prompt: "A polling station can have multiple polling booths.",
+    options: ["True", "False"],
+    answer: "True",
+    detail: "A polling station can contain more than one polling booth."
   },
   {
     id: 7,
-    prompt: "How many polling booths are there for Mannargudi Assembly Constituency?",
-    options: ["246", "258", "282", "286"],
-    answer: "286",
-    detail: "The current public constituency listing shows 286 polling booths for Mannargudi."
+    prompt: "Is there an online voting system available?",
+    options: ["Yes", "No"],
+    answer: "No",
+    detail: "Voting in this election is not conducted through a general online voting system."
   },
   {
     id: 8,
-    prompt: "How many village panchayats are there in Mannargudi Assembly Constituency?",
-    options: ["33", "42", "51", "70"],
-    answer: "51",
-    detail: "The latest Thiruvarur district local body listing shows 51 village panchayats in Mannargudi block."
+    prompt: "This Assembly election is to choose the Prime Minister.",
+    options: ["True", "False"],
+    answer: "False",
+    detail: "An Assembly election is held to elect an MLA, not to choose the Prime Minister."
   },
   {
     id: 9,
-    prompt: "How many town panchayats are there in Mannargudi Assembly Constituency?",
-    options: ["0", "1", "2", "3"],
-    answer: "0",
-    detail: "The latest Thiruvarur district local body listing shows Mannargudi as a municipality, with no town panchayat in Mannargudi block area."
+    prompt: "How many Assembly constituencies are there in Tamil Nadu?",
+    options: ["200", "234", "243", "295"],
+    answer: "234",
+    detail: "Tamil Nadu has 234 Assembly constituencies."
   },
   {
     id: 10,
-    prompt: "Which election is used to choose the MLA for Mannargudi?",
+    prompt: "What is the majority number of seats needed out of 234?",
     options: [
-      "Lok Sabha election",
-      "Tamil Nadu Assembly election",
-      "Municipal election",
-      "Panchayat election"
+      "116",
+      "117",
+      "118",
+      "119"
     ],
-    answer: "Tamil Nadu Assembly election",
-    detail: "Voters in Mannargudi choose their MLA through the Tamil Nadu Assembly election."
+    answer: "118",
+    detail: "In a 234-seat Assembly, a party or alliance needs 118 seats for a simple majority."
   }
 ];
 
@@ -96,14 +96,14 @@ export const secondQuizQuestions: Question[] = [
   {
     id: 3,
     prompt: "Who was the ADMK candidate in Mannargudi in the 2021 election?",
-    options: ["Siva Rajamanikam", "S. Kamaraj", "Bharathi Selvan", "U. V. M. Rajarajan"],
+    options: ["Siva Rajamanikam", "S. Kamaraj", "Dr. Barathi Selvan", "U. V. M. Rajarajan"],
     answer: "Siva Rajamanikam",
     detail: "Siva Rajamanikam was the ADMK candidate in Mannargudi in 2021."
   },
   {
     id: 4,
     prompt: "Who is the DMK candidate for Mannargudi now?",
-    options: ["T. R. B. Raja", "S. Kamaraj", "Bharathi Selvan", "U. V. M. Rajarajan"],
+    options: ["T. R. B. Raja", "S. Kamaraj", "Dr. Barathi Selvan", "U. V. M. Rajarajan"],
     answer: "T. R. B. Raja",
     detail: "As of April 1, 2026, the publicly listed DMK candidate for Mannargudi is T. R. B. Raja."
   },
@@ -117,21 +117,21 @@ export const secondQuizQuestions: Question[] = [
   {
     id: 6,
     prompt: "Who is the AMMK candidate for Mannargudi now?",
-    options: ["Siva Rajamanikam", "S. Kamaraj", "Bharathi Selvan", "K. Poondi Kalaivanan"],
+    options: ["Siva Rajamanikam", "S. Kamaraj", "Dr. Barathi Selvan", "K. Poondi Kalaivanan"],
     answer: "S. Kamaraj",
     detail: "As of April 1, 2026, S. Kamaraj is publicly listed as the AMMK candidate for Mannargudi."
   },
   {
     id: 7,
     prompt: "Who is the NTK candidate for Mannargudi now?",
-    options: ["Aravindan Rama", "Dr. Bharathi Selvam", "Vinothini", "S. Pandian"],
-    answer: "Dr. Bharathi Selvam",
-    detail: "As of April 1, 2026, Dr. Bharathi Selvam is publicly listed as the NTK candidate for Mannargudi."
+    options: ["Aravindan Rama", "Dr. Barathi Selvan", "Vinothini", "S. Pandian"],
+    answer: "Dr. Barathi Selvan",
+    detail: "As of April 1, 2026, Dr. Barathi Selvan is publicly listed as the NTK candidate for Mannargudi."
   },
   {
     id: 8,
     prompt: "Who is the TVK candidate for Mannargudi now?",
-    options: ["U. V. M. Rajarajan", "Bharathi Selvan", "S. Kamaraj", "T. R. B. Rajaa"],
+    options: ["U. V. M. Rajarajan", "Dr. Barathi Selvan", "S. Kamaraj", "T. R. B. Rajaa"],
     answer: "U. V. M. Rajarajan",
     detail: "As of April 1, 2026, U. V. M. Rajarajan is publicly listed as the TVK candidate for Mannargudi."
   },

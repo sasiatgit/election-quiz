@@ -276,6 +276,18 @@ button {
   border-top: 1px solid rgba(23, 33, 43, 0.08);
 }
 
+.result-panel-first {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-inline {
+  margin: 0;
+  align-self: center;
+  text-align: center;
+}
+
 .result-panel h3 {
   margin: 8px 0 0;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
@@ -355,9 +367,14 @@ button {
   gap: 24px;
 }
 
+.footer-card > div {
+  display: grid;
+  gap: 10px;
+}
+
 .footer-card h3 {
-  margin: 8px 0 0;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  margin: 4px 0 6px;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
 }
 
 .action-row {
@@ -369,6 +386,11 @@ button {
 
 .action-row-center {
   justify-content: center;
+}
+
+.result-panel-first .action-row-center {
+  width: 100%;
+  margin-top: 20px;
 }
 
 .action-row-right {
@@ -433,8 +455,8 @@ button {
 
 .data-note {
   max-width: 480px;
-  margin: 0;
-  color: var(--muted);
+  margin: 4px 0 0;
+  color: #ffe08a;
   line-height: 1.6;
 }
 

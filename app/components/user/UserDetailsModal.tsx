@@ -97,8 +97,6 @@ export function UserDetailsModal({
 
             <div className="review-list">
               {reviewQuestions.map((question) => {
-                const needsUpdateLabel = [6, 7, 8, 9].includes(question.id);
-
                 return (
                   <article className="review-item" key={question.id}>
                     <span>Question {question.id}</span>
@@ -110,7 +108,6 @@ export function UserDetailsModal({
                     <p>
                       Correct answer: <b>{question.answer}</b>
                     </p>
-                    {needsUpdateLabel && <p>Not sure, will update ASAP.</p>}
                   </article>
                 );
               })}

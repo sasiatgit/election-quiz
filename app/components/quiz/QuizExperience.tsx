@@ -359,11 +359,24 @@ export function QuizExperience() {
           {quizMessage && <p className="inline-note error-note">{quizMessage}</p>}
 
           {submitted && currentQuestion === activeQuestions.length - 1 && (
-            <div className="result-panel" ref={resultsRef}>
-              <p className="score-label">Your Score</p>
-              <h3>
-                {score} / {activeQuestions.length}
-              </h3>
+            <div
+              className={["result-panel", quizStage === "first" ? "result-panel-first" : ""]
+                .filter(Boolean)
+                .join(" ")}
+              ref={resultsRef}
+            >
+              {quizStage === "first" ? (
+                <h3 className="score-inline">
+                  Your Score : {score} / {activeQuestions.length}
+                </h3>
+              ) : (
+                <>
+                  <p className="score-label">Your Score</p>
+                  <h3>
+                    {score} / {activeQuestions.length}
+                  </h3>
+                </>
+              )}
 
               {quizStage === "second" && (
                 <>
@@ -401,12 +414,7 @@ export function QuizExperience() {
                   >
                     Want to know the answers? Continue to the next-level quiz on candidates
                   </button>
-                ) : (
-                  <p className="quiz-finale-message">
-                    Hope this helps you get some details on your constituency. Don&apos;t forget
-                    to cast your vote on April 23. Happy voting.
-                  </p>
-                )}
+                ) : null}
                 {quizStage === "second" && (
                   <button type="button" className="secondary-button" onClick={handleReset}>
                     Reset
@@ -435,7 +443,7 @@ export function QuizExperience() {
         <section className="footer-card">
           <div>
             <p className="eyebrow">Quick Feedback</p>
-            <h3>Did this quiz feel useful?</h3>
+            <h3>Hope you found the quiz interesting....</h3>
             <p className="data-note">
               Share a quick like or dislike and comment. Also, if you want to promote your
               business through apps and attract more customers, you can mention that in the
